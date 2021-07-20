@@ -1,7 +1,8 @@
 module GitHub.ExpressionInterpreter where
 
-import Data.List  (find)
-import Data.Maybe (fromJust)
+import Prelude hiding (exp)
+import Data.List      (find)
+import Data.Maybe     (fromJust)
 
 type Identifier = String
 
@@ -28,6 +29,6 @@ deleteVariable i = filter ((/=i) . fst)
 evaluate :: Expression -> Environment -> Value
 evaluate (Number n)   _   = Value n
 evaluate (Plus a b)   env = let (Value a', Value b') = (evaluate a env, evaluate b env) in Value (a' + b')
-evaluate (Minus a b)  env = case (evaluate a env, evaluate b env) of (Value a', Value b') -> Value (a' + b')
+evaluate (Minus a b)  env = case (evaluate a env, evaluate b env) of (Value a', Value b') -> Value (a' - b')
 evaluate (Variable i) env = findValue i env
 evaluate (Let i a b)  env = evaluate a (elaborate i b env)
